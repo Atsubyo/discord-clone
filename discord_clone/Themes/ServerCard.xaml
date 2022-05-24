@@ -1,0 +1,55 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style TargetType="ListViewItem" x:Key="ServerCard">
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <!--#46484C-->
+                <Setter Property="Background" Value="#738ADB"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <!--#393B40-->
+                <Setter Property="Background" Value="#738ADB"/>
+            </Trigger>
+        </Style.Triggers>
+        <!--#252525-->
+        <Setter Property="Background" Value="#252525"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListViewItem">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="7"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="7"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Name="TabSelect"
+                                Background="{TemplateBinding Background}"
+                                Height="35"
+                                Width="5"
+                                CornerRadius="0,7,7,0"
+                                Grid.Column="0"
+                                Margin="-5,0,0,0"
+                                BorderThickness="0">
+                        </Border>
+
+                        <Border Name="ServerIcon"
+                                Height="50"
+                                Width="50"
+                                CornerRadius="15"
+                                Grid.Column="1"
+                                Margin="0,7,0,7"
+                                BorderThickness="0">
+                            <Border.Background>
+                                <ImageBrush Stretch="Fill"
+                                            ImageSource="{Binding ServerIcon}"
+                                            RenderOptions.BitmapScalingMode="Fant"/>
+                            </Border.Background>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,524 @@
+﻿<Window x:Class="discord_clone.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:discord_clone" 
+        xmlns:viewmodel="clr-namespace:discord_clone.MVVM.ViewModel"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Height="750" Width="1350"
+        Background="#36393F"
+        WindowStyle="None"
+        FontFamily="/Fonts/#Uni_Sans_Thin"
+        AllowsTransparency="True">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="25"/>
+    </WindowChrome.WindowChrome>
+
+    <Window.DataContext>
+        <viewmodel:MainViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <!--#region Title Bar-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <!--#region App Title Display-->
+        <Border Grid.ColumnSpan="2" 
+                Background="#252525">
+            <Grid HorizontalAlignment="Stretch">
+                <Label Content="Dicord Clone"
+                       Foreground="Gray"
+                       FontWeight="SemiBold"/>
+                <!--#region WindowState Modifiers-->
+                <StackPanel HorizontalAlignment="Right"
+                            Orientation="Horizontal"
+                            WindowChrome.IsHitTestVisibleInChrome="True">
+                    <!--minimize-->
+                    <Button Content="–"
+                            Foreground="#919191"
+                            BorderThickness="0"
+                            FontWeight="Bold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Click="ButtonMinimize_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Cursor" Value="Hand"/>
+                                <Setter Property="Background" Value="#252525"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#42474C"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Width="25" Height="25"
+                                        Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <!--maximize-->
+                    <Button Content="◻"
+                            Foreground="#919191"
+                            BorderThickness="0"
+                            FontWeight="Bold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Click="ButtonMaximize_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Cursor" Value="Hand"/>
+                                <Setter Property="Background" Value="#252525"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#42474C"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Width="25" Height="25"
+                                        Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <!--close-->
+                    <Button Content="✕"
+                            Foreground="#919191"
+                            BorderThickness="0"
+                            FontWeight="Bold"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Click="ButtonClose_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Cursor" Value="Hand"/>
+                                <Setter Property="Background" Value="#252525"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="Red"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Width="25" Height="25"
+                                        Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <!--#endregion-->
+        <!--#endregion-->
+        <!--#endregion-->
+
+        <!--#region Main Body-->
+        <Grid Background="#36393F"
+              Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="240"/>
+            </Grid.ColumnDefinitions>
+            <!--#region Server Icon List-->
+            <Grid Grid.Column="0"
+                  Grid.RowSpan="2">
+                <ListView ItemsSource="{Binding Servers}"
+                          Background="#252525"
+                          BorderThickness="0"
+                          Grid.Column="0"
+                          Grid.Row="1"
+                          ItemContainerStyle="{StaticResource ServerCard}"/>
+            </Grid>
+            <!--#endregion-->
+
+            <!--#region Contact List-->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+
+                <!--#region Contact Search Box-->
+                <Grid Background="#2F3136"
+                          Grid.Row="0">
+                    <Border Name="SearchConvo"
+                                Background="#252525"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Height="24"
+                                Width="224"
+                                CornerRadius="7">
+                        <Label Content="Find or start a conversation"
+                                   Foreground="Gray"
+                                   FontWeight="Medium"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"
+                                   Margin="4,0,0,0"/>
+
+                    </Border>
+                </Grid>
+                <!--#endregion-->
+
+                <!--#region Contact List Label-->
+                <Grid Grid.Row="1"
+                      Background="#2F3136">
+                    <Border BorderBrush="#292b2F"
+                            BorderThickness="0,2,0,0"/>
+                    <Label Name="dmLabel"
+                           Content="Direct Messages"
+                           FontWeight="Medium"
+                           Foreground="Gray"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           Grid.Row="0"
+                           Grid.Column="1"
+                           Margin="8,0,0,0"/>
+                    <Button Content="➕"
+                            Foreground="#A9A9A9"
+                            BorderThickness="0"
+                            FontWeight="UltraBold"
+                            FontSize="8"
+                            Grid.Row="0"
+                            HorizontalAlignment="Right"
+                            Margin="0,0,8,0">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Cursor" Value="Hand"/>
+                                <Setter Property="Background" Value="#2F3136"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="Foreground" Value="#9B9B9B"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Width="15" Height="15"
+                                        CornerRadius="8"
+                                        Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
+                <!--#endregion-->
+
+                <!--#region Contact ListView-->
+                <Grid Grid.Row="2">
+                    <ListView ItemsSource="{Binding Contacts}"
+                              Background="#2F3136"
+                              BorderThickness="0"
+                              Grid.Column="0"
+                              Grid.ColumnSpan="2"
+                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                              ItemContainerStyle="{StaticResource ContactCard}"/>
+                </Grid>
+                <StackPanel Grid.Row="3"
+                            Background="#292b2F"
+                            Orientation="Horizontal">
+                    <Ellipse Height="30"
+                             Width="30"
+                             Margin="10,10,5,10">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="/Icons/snom_with_knife.jpg"
+                                        RenderOptions.BitmapScalingMode="Fant"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+
+                    <StackPanel VerticalAlignment="Center">
+                        <Label Content="MaoMao"
+                               Foreground="White"
+                               FontWeight="SemiBold"
+                               FontSize="14"
+                               Margin="0,-6,0,-6"/>
+                        <Label Content="Custom Status"
+                               Foreground="#8E8E91"
+                               FontSize="12"
+                               FontWeight="Thin"
+                               Margin="0,-6,0,-6"/>
+                    </StackPanel>
+                </StackPanel>
+                <Border Name="SettingsButton"
+                        Height="25"
+                        Width="25"
+                        Grid.Row="3"
+                        Margin="7"
+                        BorderThickness="0"
+                        HorizontalAlignment="Right">
+                    <Image Stretch="Fill"
+                           Source="/Icons/settings_Icon.png"
+                           RenderOptions.BitmapScalingMode="Fant"/>
+                </Border>
+                <!--#endregion-->
+            </Grid>
+            <!--#endregion-->
+
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="60"/>
+                </Grid.RowDefinitions>
+
+                <!--region DM Top Bar-->
+                <Grid Grid.Row="0">
+                    <Grid Margin="5">
+
+                        <!--#region TopBar Username-->
+                        <Label Content="@Username"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Foreground="White"
+                               FontWeight="Bold"
+                               FontSize="18"/>
+                        <!--#endregion-->
+
+                        <!--#region TopBar Icons-->
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Right">
+                            <Border Name="VoiceCallIcon"
+                                    Height="25"
+                                    Width="25"
+                                    BorderThickness="0"
+                                    Margin="5,0,5,0">
+                                <Border.Background>
+                                    <ImageBrush Stretch="Fill"
+                                                ImageSource="/Icons/Voice_Call_Icon.png"
+                                                RenderOptions.BitmapScalingMode="Fant"/>
+                                </Border.Background>
+                            </Border>
+                            <Border Name="VidCallIcon"
+                                    Height="25"
+                                    Width="25"
+                                    BorderThickness="0"
+                                    Margin="5,0,5,0">
+                                <Border.Background>
+                                    <ImageBrush Stretch="Fill"
+                                                ImageSource="/Icons/Video_Call_Icon.png"
+                                                RenderOptions.BitmapScalingMode="Fant"/>
+                                </Border.Background>
+                            </Border>
+                            <Border Name="PinIcon"
+                                    Height="25"
+                                    Width="25"
+                                    BorderThickness="0"
+                                    Margin="5,0,5,0">
+                                <Border.Background>
+                                    <ImageBrush Stretch="Fill"
+                                                ImageSource="/Icons/Pin_Icon.png"
+                                                RenderOptions.BitmapScalingMode="Fant"/>
+                                </Border.Background>
+                            </Border>
+                            <Border Name="AddUserIcon"
+                                    Height="25"
+                                    Width="25"
+                                    BorderThickness="0"
+                                    Margin="5,0,5,0">
+                                <Border.Background>
+                                    <ImageBrush Stretch="Fill"
+                                                ImageSource="/Icons/Add_User_Icon.png"
+                                                RenderOptions.BitmapScalingMode="Fant"/>
+                                </Border.Background>
+                            </Border>
+                            <Border Name="MembersIcon"
+                                    Height="25"
+                                    Width="25"
+                                    BorderThickness="0"
+                                    Margin="5,0,5,0">
+                                <Border.Background>
+                                    <ImageBrush Stretch="Fill"
+                                                ImageSource="/Icons/Members_Icon.png"
+                                                RenderOptions.BitmapScalingMode="Fant"/>
+                                </Border.Background>
+                            </Border>
+                        </StackPanel>
+                        <!--#endregion-->
+                    </Grid>
+                </Grid>
+                <!--#endregion-->
+
+                <!--#region Messages Page-->
+                <Grid Grid.Row="1">
+                    <Border BorderBrush="#2F3136"
+                            BorderThickness="0,2,0,0">
+                        <ListView ItemsSource="{Binding SelectedContact Messages}"
+                                  Background="Transparent"
+                                  BorderThickness="0"
+                                  ItemContainerStyle="{StaticResource ChatItem}"
+                                  Margin="8,0,0,0"/>
+                    </Border>
+                </Grid>
+                <!--#endregion-->
+
+                <!--#region Send Message TextBox-->
+                <Grid Grid.Row="2">
+                    <Grid Height="40"
+                          Margin="10,0,10,0"
+                          VerticalAlignment="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.ColumnSpan="2">
+                            <Border Background="#464A51"
+                                    BorderThickness="0"
+                                    Height="40"
+                                    VerticalAlignment="Top"
+                                    CornerRadius="8">
+                                <Border.RenderTransform>
+                                    <ScaleTransform CenterX="0"
+                                                    CenterY="0"
+                                                    ScaleX="1"
+                                                    ScaleY="1"/>
+                                </Border.RenderTransform>
+                            </Border>
+                        </Grid>
+                        <Grid Grid.Column="0">
+                            <Button BorderThickness="0">
+                                <Image Source="/Icons/Attachment_Icon.png"
+                                           Height="20"
+                                           Width="20"
+                                           Margin="10,0,10,0"/>
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="#464A51"/>
+                                        <Setter Property="CornerRadius" Value="8,0,0,8"/>
+                                    </Style>
+                                </Button.Resources>
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Cursor" Value="Hand"/>
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter VerticalAlignment="Center"
+                                                                  HorizontalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <TextBox Background="Transparent"
+                                     BorderThickness="0"
+                                     VerticalAlignment="Center"
+                                     Margin="0,12,5,0"
+                                     Height="25"
+                                     FontSize="15"
+                                     FontWeight="Medium"
+                                     Foreground="#C1C1C1"
+                                     CaretBrush="#C1C1C1"
+                                     Text="Message @Username">
+                                <!--Style="{StaticResource MessageBox}">-->
+                            </TextBox>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <!--#endregion-->
+            </Grid>
+
+
+            <!--#region Search Box-->
+            <Grid Background="#36393F"
+                  Grid.Column="3">
+                <StackPanel Orientation="Horizontal">
+                    <Border Name="Search"
+                            Background="#252525"
+                            VerticalAlignment="Center"
+                            Height="24"
+                            Width="160"
+                            CornerRadius="7"
+                            Margin="0,0,5,0">
+                        <Label Content="Search"
+                               Foreground="Gray"
+                               FontWeight="Medium"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Margin="4,0,0,0"/>
+
+                    </Border>
+                    <Border Name="HelpIcon"
+                            Height="25"
+                            Width="25"
+                            HorizontalAlignment="Right"
+                            BorderThickness="0"
+                            Margin="5,0,5,0">
+                        <Border.Background>
+                            <ImageBrush Stretch="Fill"
+                                        ImageSource="/Icons/Inbox_Icon.png"
+                                        RenderOptions.BitmapScalingMode="Fant"/>
+                        </Border.Background>
+                    </Border>
+                    <Border Name="InboxIcon"
+                            Height="25"
+                            Width="25"
+                            HorizontalAlignment="Right"
+                            BorderThickness="0"
+                            Margin="5,0,5,0">
+                        <Border.Background>
+                            <ImageBrush Stretch="Fill"
+                                        ImageSource="/Icons/Help_Icon.png"
+                                        RenderOptions.BitmapScalingMode="Fant"/>
+                        </Border.Background>
+                    </Border>
+                </StackPanel>
+            </Grid>
+            <!--#endregion-->
+
+            <!--region DM Member List-->
+            <Grid Background="#2F3136"
+                  Grid.Column="3"
+                  Grid.Row="1">
+
+                <Border BorderThickness="0,2,0,0"
+                        BorderBrush="#292b2F"/>
+
+            </Grid>
+            <!--#endregion-->
+        </Grid>
+        <!--#endregion-->
+    </Grid>
+</Window>
